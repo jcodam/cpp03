@@ -1,33 +1,74 @@
-#include "Fixed.hpp"
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include "point.hpp"
 
-// int main( void ) {
-// Fixed a;
-// Fixed const b( Fixed( 5.05f ) * Fixed( 2 ) );
-// std::cout << a << std::endl;
-// std::cout << ++a << std::endl;
-// std::cout << a << std::endl;
-// std::cout << a++ << std::endl;
-// std::cout << a << std::endl;
-// std::cout << b << std::endl;
-// std::cout << Fixed::max( a, b ) << std::endl;
-// return 0;
+bool bsp( point const a, point const b, point const c, point const point);
+
+bool	convert_file_to_string(std::fstream *file)
+{
+	int y = 0;
+	int x = 0;
+	int index = 0;
+	std::string	buf;
+	point points[4];
+
+	// buffer << file->rdbuf();
+	// file.
+	while (std::getline(*file, buf))
+	{
+		std::cout << buf << std::endl;
+		x = buf.find('.');
+		if (x != -1)
+		{
+			points[3] = point(x, y);
+			x = -1;
+		}
+		x = buf.find('*');
+		while (x != -1 && index < 3)
+		{
+			points[index] = point(x, y);
+			index++;
+			x = buf.find('*', x + 1);
+
+		}
+		y++;
+	}
+	// points[0].printData();
+	// points[1].printData();
+	// points[2].printData();
+	// points[3].printData();
+	return (bsp(points[0], points[1], points[2],  points[3]));
+}
+
+// void	get_star_dot(std::string content)
+// {
+// 	(void)content;
 // }
 
-int main(void)
+int main(int argc, char *argv[])
 {
-	Fixed a(42);
-	Fixed b(55);
-	Fixed c;
-
-	std::cout << a << " " << b << " " << c << std::endl;
-	std::cout << (c = a + b) << " " << (b + c) << " " << c << std::endl;
-	std::cout << a << " " << b << " " << c << std::endl;
-	std::cout << (a*Fixed(2.45f)) << " " << (b/Fixed(0)) << " " << c - b << std::endl;
-	std::cout << a << " " << b << " " << c << std::endl;
-	std::cout << Fixed::max(a,Fixed(100)) << " " << Fixed::max(b,Fixed(100)) << " " << Fixed::max(c,Fixed(100)) << std::endl;
-	std::cout << Fixed::min(a,Fixed(100)) << " " << Fixed::min(b,Fixed(100)) << " " << Fixed::min(c,Fixed(100)) << std::endl;
-	if ( a > b)
-		std::cout << a << ">" << b << std::endl;
+	std::fstream	rd_file;
+	std::string		file_name;
+	bool			in_out;
+	if (argc != 2)
+	{
+		std::cout << "program need all arguments" << std::endl << "1.filename--2.string to be replaced--3.the replacement string" << std::endl;
+		return 1;
+	}
+	file_name = argv[1];
+	rd_file.open(file_name, std::ios::in);
+	if (!rd_file.is_open())
+	{
+		std::cout << "program can't open file check if it exist" << std::endl;
+		return 1;
+	}
+	in_out = convert_file_to_string(&rd_file);
+	// std::cout << file_content << std::endl;
+	rd_file.close();
+	if (in_out)
+		std::cout << "is inside" << std::endl;
 	else
-		std::cout << a << "!>" << b << std::endl;
+		std::cout << "is outside" << std::endl;
+	return 0;
 }

@@ -1,6 +1,6 @@
-NAME= ex2
+NAME= ex3
 
-SRC= main.o Fixed.o
+SRC= main.o Fixed.o point.o bsp.o
 
 CC= c++
 
@@ -25,6 +25,6 @@ re:
 	@$(MAKE) all
 
 r: all
-	./$(NAME)
+	./$(NAME) "map.ber"
 
 .PHONY: all clean fclean re r 
