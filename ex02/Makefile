@@ -1,12 +1,12 @@
-NAME= ex2
+NAME= clapParty
 
-SRC= main.o Fixed.o
+SRC= main.o ClapTrap.o ScavTrap.o FragTrap.o
 
 CC= c++
 
 CPPFLAGS +=	-Wall -Werror -Wextra
 CPPFLAGS +=	-std=c++98
-CPPFLAGS += -fsanitize=address
+CPPFLAGS += -Wshadow -Wno-shadow
 
 all:$(NAME)
 

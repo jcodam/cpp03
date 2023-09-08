@@ -1,6 +1,6 @@
-NAME= ex1
+NAME= clapParty
 
-SRC= main.o Fixed.o
+SRC= main.o ClapTrap.o ScavTrap.o
 
 CC= c++
 

@@ -1,6 +1,6 @@
-NAME= CanonicalForm
+NAME= clapParty
 
-SRC= main.o Fixed.o
+SRC= main.o ClapTrap.o
 
 CC= c++
 

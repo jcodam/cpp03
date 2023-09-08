@@ -1,18 +1,20 @@
-NAME= ex3
+NAME= clapParty
 
-SRC= main.o Fixed.o point.o bsp.o
+SRC= ClapTrap.o ScavTrap.o FragTrap.o DiamondTrap.o
+HEADER:= $(SRC:%.o=%.hpp)
+SRC+= main.o
 
 CC= c++
 
 CPPFLAGS +=	-Wall -Werror -Wextra
 CPPFLAGS +=	-std=c++98
-CPPFLAGS += -fsanitize=address
+CPPFLAGS += -Wshadow -Wno-shadow
 
 all:$(NAME)
 
 $(NAME): $(SRC)
 	$(CC) $(CPPFLAGS) -o $@ $^
-%.o:%.cpp
+%.o:%.cpp $(HEADER)
 	$(CC) -c $(CPPFLAGS) $< -o $@
 
 clean:
@@ -25,6 +27,6 @@ re:
 	@$(MAKE) all
 
 r: all
-	./$(NAME) "map.ber"
+	./$(NAME)
 
-.PHONY: all clean fclean re r 
+.PHONY: all clean fclean re r m
