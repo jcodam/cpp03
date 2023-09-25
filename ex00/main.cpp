@@ -1,5 +1,7 @@
 #include "ClapTrap.hpp"
 #include "../mycolor.hpp"
+#include <limits>
+#include <cstdio>
 
 int check_cinerr(std::string errtext)
 {
@@ -78,7 +80,7 @@ int main(void)
 		if (!token)
 		{
 			delBot(ClapTraps, index);
-			exit(0);
+			return 0;
 		}
 		if (token != 5)
 		{
@@ -90,12 +92,12 @@ int main(void)
 				token = 0;
 			}
 		}
-		if (token == 4 && index < sizeof(ClapTraps)/sizeof(ClapTrap))
+		if (token == 4 && index < sizeof(ClapTraps)/sizeof(ClapTrap *))
 		{
 			ClapTraps[index] = new ClapTrap(name);
 			index++;
 		}
-		else if (token == 4 && index >= sizeof(ClapTraps)/sizeof(ClapTrap))
+		else if (token == 4 && index >= sizeof(ClapTraps)/sizeof(ClapTrap *))
 			std::cout << FG_GREEN << "to many ClapTraps!!! WE ARE GONNA DIE!!!!" << FG_DEFAULT << std::endl;
 		if (token == 1)
 		{

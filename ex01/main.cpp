@@ -1,6 +1,8 @@
 #include "ClapTrap.hpp"
 #include "ScavTrap.hpp"
 #include "../mycolor.hpp"
+#include <limits>
+#include <cstdio>
 
 int check_cinerr(std::string errtext)
 {
@@ -151,7 +153,6 @@ int main(void)
 		{
 			delBot(ClapTraps, ScavTraps);
 			return 0;
-			exit(0);
 		}
 		if (token != 5)
 		{
@@ -162,12 +163,12 @@ int main(void)
 		{
 			std::cout << FG_LGREEN << "clap or scav?: " << FG_DEFAULT;
 			std::getline(std::cin, type, '\n');
-			if ( type.compare("clap") == 0 && index < sizeof(ClapTraps)/sizeof(ClapTrap))
+			if ( type.compare("clap") == 0 && index < sizeof(ClapTraps)/sizeof(ClapTrap *))
 			{
 				ClapTraps[index] = new ClapTrap(name);
 				index++;
 			}
-			else if ( type.compare("scav") == 0 && index_scav < sizeof(ScavTraps)/sizeof(ScavTrap))
+			else if ( type.compare("scav") == 0 && index_scav < sizeof(ScavTraps)/sizeof(ScavTrap *))
 			{
 				ScavTraps[index_scav] = new ScavTrap(name);
 				index_scav++;

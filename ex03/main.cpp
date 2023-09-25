@@ -3,6 +3,8 @@
 #include "FragTrap.hpp"
 #include "DiamondTrap.hpp"
 #include "../mycolor.hpp"
+#include <limits>
+#include <cstdio>
 
 int check_cinerr(std::string errtext)
 {
@@ -28,7 +30,7 @@ int check_cinerr(std::string errtext)
 int	display_options(){
 	std::string temp;
 
-	std::cout << FG_LGREEN"COMMANDS: \nattack, damage, new, repair, guard, highfive, exit" << FG_DEFAULT << std::endl;
+	std::cout << FG_LGREEN"COMMANDS: \nattack, damage, new, repair, guard, highfive, whoAmI exit" << FG_DEFAULT << std::endl;
 	std::cin >> temp;
 	if (!check_cinerr("check your input"))
 		return (5);
@@ -48,11 +50,13 @@ int	display_options(){
 		return (7);
 	if (temp.compare("highfive") == 0 || temp.compare("6") == 0)
 		return (8);
+	if (temp.compare("whoami") == 0 || temp.compare("7") == 0)
+		return (9);
 	std::cout << "command not found.";
 	return (5);
 }
 
-void delBot(ClapTrap **ClapTraps, ScavTrap **scav, FragTrap **frag)
+void delBot(ClapTrap **ClapTraps, ScavTrap **scav, FragTrap **frag, DiamondTrap **dia)
 {
 	for (int i = 0; ClapTraps[i]; i++)
 	{
@@ -62,6 +66,8 @@ void delBot(ClapTrap **ClapTraps, ScavTrap **scav, FragTrap **frag)
 		delete scav[i];
 	for (int i = 0; frag[i]; i++)
 		delete frag[i];
+	for (int i = 0; dia[i]; i++)
+		delete dia[i];
 }
 
 void	scav_action(ScavTrap *scav, int token){
@@ -95,6 +101,8 @@ void	scav_action(ScavTrap *scav, int token){
 			scav->guardGate();
 		if (token == 8)
 			std::cout << scav->getName() <<" can't high five\n";
+		if (token == 9)
+			std::cout << scav->getName() <<" knows what it is\n";
 }
 void	frag_action(FragTrap *frag, int token){
 	std::string target;
@@ -127,6 +135,8 @@ void	frag_action(FragTrap *frag, int token){
 			std::cout << frag->getName() <<" can't guard\n";
 		if (token == 8)
 			frag->highFivesGuys();
+		if (token == 9)
+			std::cout << frag->getName() <<" knows what it is\n";
 }
 void	clap_action(ClapTrap *ClapTraps, int token){
 	std::string target;
@@ -159,9 +169,45 @@ void	clap_action(ClapTrap *ClapTraps, int token){
 			std::cout << ClapTraps->getName() <<" can't guard\n";
 		if (token == 8)
 			std::cout << ClapTraps->getName() <<" can't high five\n";
+		if (token == 9)
+			std::cout << ClapTraps->getName() <<" knows what it is\n";
+}
+void	dia_action(DiamondTrap *diamonds, int token){
+	std::string target;
+	unsigned int amount = 0;
+		if (token == 1)
+		{
+			std::cout << FG_LGREEN << "Who do we attack: " << FG_DEFAULT;
+			std::getline(std::cin, target, '\n');
+				diamonds->attack( target);
+		}
+		if (token == 2)
+		{
+			std::cout << FG_LGREEN << "How much should we do?: " << FG_DEFAULT;
+			std::cin >> amount;
+			if (check_cinerr("check your input"))
+			{
+				diamonds->takeDamage( amount);
+			}
+		}
+		if (token == 6)
+		{	
+			std::cout << FG_LGREEN << "How much should we do?: " << FG_DEFAULT;
+			std::cin >> amount;
+			if (check_cinerr("check your input"))
+			{
+				diamonds->beRepaired( amount);
+			}
+		}
+		if (token == 7)
+			std::cout << diamonds->getName() <<" can't guard\n";
+		if (token == 8)
+			std::cout << diamonds->getName() <<" can't high five\n";
+		if (token == 9)
+			diamonds->whoAmI();
 }
 
-int searchBot(ClapTrap **ClapTraps, std::string name, ScavTrap **scav, int token, FragTrap **frag)
+int searchBot(ClapTrap **ClapTraps, std::string name, ScavTrap **scav, int token, FragTrap **frag, DiamondTrap **dia)
 {
 	for (int i = 0; ClapTraps[i]; i++)
 	{
@@ -178,6 +224,12 @@ int searchBot(ClapTrap **ClapTraps, std::string name, ScavTrap **scav, int token
 		if (!name.compare(frag[i]->getName()))
 			frag_action(frag[i], token);
 	}
+	name = name + "_DiamondTrap";
+	for (int i = 0; dia[i]; i++)
+	{
+		if (!name.compare(dia[i]->getName()))
+			dia_action(dia[i], token);
+	}
 	return (-1);
 }
 
@@ -189,23 +241,24 @@ int main(void)
 	ClapTrap	*ClapTraps[10] = {0,0,0,0,0,0,0,0,0,0};
 	ScavTrap	*ScavTraps[10] = {0,0,0,0,0,0,0,0,0,0};
 	FragTrap	*FragTraps[10] = {0,0,0,0,0,0,0,0,0,0};
+	DiamondTrap	*DiamondTraps[10] = {0,0,0,0,0,0,0,0,0,0};
 	unsigned int index = 0;
 	unsigned int index_scav = 0;
 	unsigned int index_frag = 0;
-	ScavTrap bb("Scav");
-	DiamondTrap ll("bob");
-	ll.attack("bob");
-	std::cout << ll << std::endl;
-	std::cout << bb << std::endl;
-	return 0;
+	unsigned int index_diamond = 0;
+	// ScavTrap bb("Scav");
+	// DiamondTrap ll("bob");
+	// ll.attack("bob");
+	// std::cout << ll << std::endl;
+	// std::cout << bb << std::endl;
+	// return 0;
 	while (1)
 	{
 		token = display_options();
 		if (!token)
 		{
-			delBot(ClapTraps, ScavTraps, FragTraps);
+			delBot(ClapTraps, ScavTraps, FragTraps, DiamondTraps);
 			return 0;
-			exit(0);
 		}
 		if (token != 5)
 		{
@@ -214,28 +267,33 @@ int main(void)
 		}
 		if (token == 4 )
 		{
-			std::cout << FG_LGREEN << "clap scav or frag?: " << FG_DEFAULT;
+			std::cout << FG_LGREEN << "clap scav dia or frag?: " << FG_DEFAULT;
 			std::getline(std::cin, type, '\n');
-			if ( type.compare("clap") == 0 && index < sizeof(ClapTraps)/sizeof(ClapTrap))
+			if ( type.compare("clap") == 0 && index < sizeof(ClapTraps)/sizeof(ClapTrap *))
 			{
 				ClapTraps[index] = new ClapTrap(name);
 				index++;
 			}
-			else if ( type.compare("scav") == 0 && index_scav < sizeof(ScavTraps)/sizeof(ScavTrap))
+			else if ( type.compare("scav") == 0 && index_scav < sizeof(ScavTraps)/sizeof(ScavTrap *))
 			{
 				ScavTraps[index_scav] = new ScavTrap(name);
 				index_scav++;
 			}
-			else if ( type.compare("frag") == 0 && index_frag < sizeof(FragTraps)/sizeof(FragTrap))
+			else if ( type.compare("frag") == 0 && index_frag < sizeof(FragTraps)/sizeof(FragTrap *))
 			{
 				FragTraps[index_frag] = new FragTrap(name);
 				index_frag++;
+			}
+			else if ( type.compare("dia") == 0 && index_diamond < sizeof(DiamondTraps)/sizeof(DiamondTrap *))
+			{
+				DiamondTraps[index_diamond] = new DiamondTrap(name);
+				index_diamond++;
 			}
 			else
 				std::cout << FG_GREEN << "to many!!! WE ARE GONNA DIE!!!!" << FG_DEFAULT << std::endl;
 		}
 		else
-			searchBot(ClapTraps, name, ScavTraps, token, FragTraps);
+			searchBot(ClapTraps, name, ScavTraps, token, FragTraps, DiamondTraps);
 		std::cout << std::endl;
 	}
 	return 0;
