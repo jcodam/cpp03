@@ -24,14 +24,18 @@ ClapTrap & ClapTrap::operator=( ClapTrap const & rhs ) {
 }
 
 void ClapTrap::attack( const std::string& target ) {
-	if (this->_Energy)
+	if (this->_Energy && this->_HP)
 	{
 		this->_Energy--;
-		std::cout << FG_CYAN << this->_Name << " is attacking " << target << " and hits for "<< this->_Damage << FG_DEFAULT << std::endl;
+		std::cout << FG_CYAN << "a claptrap named " << this->_Name << " is attacking " << target << " and hits for "<< this->_Damage << FG_DEFAULT << std::endl;
 	}
 	else
-		std::cout << FG_CYAN << this->_Name << " is out of energy" << FG_DEFAULT << std::endl;
-	
+	{
+		if (!this->_HP)
+			std::cout << FG_CYAN << this->_Name << " is already dead" << FG_DEFAULT << std::endl;
+		else
+			std::cout << FG_CYAN << this->_Name << " is out of energy" << FG_DEFAULT << std::endl;
+	}
 }
 
 void ClapTrap::takeDamage( unsigned int amount ) {
@@ -96,6 +100,6 @@ int	ClapTrap::getEnergy() const {
 	return (this->_Energy);
 }
 std::ostream & operator<<( std::ostream & o, ClapTrap const & rhs) {
-	o << rhs.getName();
+	o << "clap name> " << rhs.getName() << " hp> " << rhs.getHP() << " energy> " << rhs.getEnergy() << " damage> " << rhs.getDamage();
 	return o;
 }

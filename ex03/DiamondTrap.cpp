@@ -14,7 +14,7 @@ DiamondTrap::DiamondTrap( DiamondTrap const & src ) {
 	std::cout << FG_LGREEN "A DiamondTrap named " << this->getName() << " is arriving" FG_DEFAULT << std::endl;
 }
 DiamondTrap::~DiamondTrap() {
-	std::cout << FG_LGREEN "A DiamondTrap named " << this->getName() << " is destroyed" FG_DEFAULT << std::endl;
+	std::cout << FG_LGREEN "A DiamondTrap named " << this->_Name << " is destroyed" FG_DEFAULT << std::endl;
 }
 
 DiamondTrap & DiamondTrap::operator=( DiamondTrap const & rhs ) {
@@ -22,7 +22,7 @@ DiamondTrap & DiamondTrap::operator=( DiamondTrap const & rhs ) {
 	return *this;
 }
 std::ostream & operator<<( std::ostream & o, DiamondTrap const & rhs) {
-	o << rhs.getName() << " " << rhs.getHP() << " " << rhs.getEnergy() << " " << rhs.getDamage();
+	o << "diamond name> " << rhs.getName() << " hp> " << rhs.getHP() << " energy> " << rhs.getEnergy() << " damage> " << rhs.getDamage();
 	return o;
 }
 void DiamondTrap::attack( const std::string& target ) {

@@ -3,7 +3,6 @@
 
 FragTrap::FragTrap() {
 	this->setHP(100);
-	this->setEnergy(100);
 	this->setDamage(30);
 	std::cout << FG_LGREEN "a FragTrap named " << this->getName() << " has arrived" FG_DEFAULT << std::endl;
 }
@@ -35,6 +34,21 @@ void FragTrap::highFivesGuys(){
 }
 
 std::ostream & operator<<( std::ostream & o, FragTrap const & rhs) {
-	o << rhs.getName();
+	o << "frag name> " << rhs.getName() << " hp> " << rhs.getHP() << " energy> " << rhs.getEnergy() << " damage> " << rhs.getDamage();
 	return o;
+}
+
+void FragTrap::attack( const std::string& target ) {
+	if (this->getEnergy() && this->_HP)
+	{
+		this->setEnergy(this->getEnergy() - 1);
+		std::cout << FG_CYAN << "a FragTrap named " << this->getName() << " is attacking " << target << " and hits for "<< this->getDamage() << FG_DEFAULT << std::endl;
+	}
+	else
+	{
+		if (!this->_HP)
+			std::cout << FG_CYAN << this->_Name << " is already dead" << FG_DEFAULT << std::endl;
+		else
+			std::cout << FG_CYAN << this->_Name << " is out of energy" << FG_DEFAULT << std::endl;
+	}
 }

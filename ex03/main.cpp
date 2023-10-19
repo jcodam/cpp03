@@ -232,6 +232,26 @@ int searchBot(ClapTrap **ClapTraps, std::string name, ScavTrap **scav, int token
 	}
 	return (-1);
 }
+int displayBot(ClapTrap **ClapTraps, ScavTrap **scav, FragTrap **frag, DiamondTrap **dia)
+{
+	for (int i = 0; ClapTraps[i]; i++)
+	{
+		std::cout << *ClapTraps[i] << std::endl;
+	}
+	for (int i = 0; scav[i]; i++)
+	{
+		std::cout << *scav[i] << std::endl;
+	}
+	for (int i = 0; frag[i]; i++)
+	{
+		std::cout << *frag[i] << std::endl;
+	}
+	for (int i = 0; dia[i]; i++)
+	{
+		std::cout << *dia[i] << std::endl;
+	}
+	return (-1);
+}
 
 int main(void)
 {
@@ -290,11 +310,12 @@ int main(void)
 				index_diamond++;
 			}
 			else
-				std::cout << FG_GREEN << "to many!!! WE ARE GONNA DIE!!!!" << FG_DEFAULT << std::endl;
+				std::cout << FG_GREEN << "too many!!! WE ARE GONNA DIE!!!!" << FG_DEFAULT << std::endl;
 		}
 		else
 			searchBot(ClapTraps, name, ScavTraps, token, FragTraps, DiamondTraps);
 		std::cout << std::endl;
+		displayBot(ClapTraps, ScavTraps, FragTraps, DiamondTraps);
 	}
 	return 0;
 }

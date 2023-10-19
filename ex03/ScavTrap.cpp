@@ -35,16 +35,21 @@ void	ScavTrap::guardGate() const {
 }
 
 std::ostream & operator<<( std::ostream & o, ScavTrap const & rhs) {
-	o << rhs.getName() << " " << rhs.getHP() << " " << rhs.getEnergy() << " " << rhs.getDamage();
+	o << "scav name> " << rhs.getName() << " hp> " << rhs.getHP() << " energy> " << rhs.getEnergy() << " damage> " << rhs.getDamage();
 	return o;
 }
 
 void ScavTrap::attack( const std::string& target ) {
-	if (this->getEnergy())
+	if (this->getEnergy() && this->_HP)
 	{
 		this->setEnergy(this->getEnergy() - 1);
 		std::cout << FG_CYAN << "a ScavTrap named " << this->getName() << " is attacking " << target << " and hits for "<< this->getDamage() << FG_DEFAULT << std::endl;
 	}
 	else
-		std::cout << FG_CYAN << this->getName() << " is out of energy" << FG_DEFAULT << std::endl;
+	{
+		if (!this->_HP)
+			std::cout << FG_CYAN << this->_Name << " is already dead" << FG_DEFAULT << std::endl;
+		else
+			std::cout << FG_CYAN << this->_Name << " is out of energy" << FG_DEFAULT << std::endl;
+	}
 }

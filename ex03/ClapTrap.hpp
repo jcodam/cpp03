@@ -4,12 +4,13 @@
 class ClapTrap
 {
 private:
+
+protected:
 	std::string _Name;
 	int _HP;
 	int _Energy;
 	int _Damage;
 	int _maxHP;
-protected:
 	void setName(std::string name);
 	void setHP(int hp);
 	void setEnergy(int energy);
@@ -19,7 +20,7 @@ protected:
 public:
 	ClapTrap( std::string name );
 	ClapTrap( ClapTrap const & src );
-	~ClapTrap();
+	virtual ~ClapTrap();
 
 	ClapTrap & operator=( ClapTrap const & rhs );
 	void attack( const std::string& target );

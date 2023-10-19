@@ -65,12 +65,20 @@ int searchBot(ClapTrap **ClapTraps, std::string name, int maxindex)
 	return (-1);
 }
 
+int displayBot(ClapTrap **ClapTraps)
+{
+	for (int i = 0; ClapTraps[i]; i++)
+	{
+		std::cout << *ClapTraps[i] << std::endl;
+	}
+	return (-1);
+}
 int main(void)
 {
 	std::string name;
 	std::string target;
 	int			token;
-	ClapTrap	*ClapTraps[10];
+	ClapTrap	*ClapTraps[10] = {0,0,0,0,0,0,0,0,0,0};
 	unsigned int index = 0;
 	unsigned int amount = 0;
 
@@ -126,6 +134,7 @@ int main(void)
 			}
 		}
 		std::cout << std::endl;
+		displayBot(ClapTraps);
 	}
 	return 0;
 }

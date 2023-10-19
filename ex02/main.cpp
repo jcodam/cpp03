@@ -182,6 +182,23 @@ int searchBot(ClapTrap **ClapTraps, std::string name, ScavTrap **scav, int token
 	return (-1);
 }
 
+int displayBot(ClapTrap **ClapTraps, ScavTrap **scav, FragTrap **frag)
+{
+	for (int i = 0; ClapTraps[i]; i++)
+	{
+		std::cout << *ClapTraps[i] << std::endl;
+	}
+	for (int i = 0; scav[i]; i++)
+	{
+		std::cout << *scav[i] << std::endl;
+	}
+	for (int i = 0; frag[i]; i++)
+	{
+		std::cout << *frag[i] << std::endl;
+	}
+	return (-1);
+}
+
 int main(void)
 {
 	std::string name;
@@ -232,6 +249,7 @@ int main(void)
 		else
 			searchBot(ClapTraps, name, ScavTraps, token, FragTraps);
 		std::cout << std::endl;
+		displayBot(ClapTraps, ScavTraps, FragTraps);
 	}
 	return 0;
 }
